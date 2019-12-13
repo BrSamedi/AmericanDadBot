@@ -296,13 +296,8 @@ ReadEnemy(ByRef arr,n,x,y,w,h)
 	}
 	BotClick(left, arr[n].X, arr[n].Y)
 	Sleep, 1000
-	global pToken
-	WinGet, hwnd, ID, NoxPlayer
-	closeBtn = %A_WorkingDir%\images\close.png
-	bmpNox := Gdip_BitmapFromHWND(hwnd)
-	bmpClose := Gdip_CreateBitmapFromFile(closeBtn)
-	RET := Gdip_ImageSearch(bmpNox,bmpClose,LIST,0,0,0,0,0,0xFFFFFF,1,0)
-	if RET = 1
+	color := BotPixelGetColor(1305, 156)
+	if color = 0xFFFFFF
 	{
 		arr[n].Power := ReadPower(x,y,w,h)
 		counter := 0
@@ -318,10 +313,7 @@ ReadEnemy(ByRef arr,n,x,y,w,h)
 		arr[n].Attacked := 0
 		else
 		arr[n].Attacked := 1
-		word_array := StrSplit(LIST, ",")
-		ps1 := "x"+word_array[1]
-		ps1 .= " y"+word_array[2]
-		BotClick(left, word_array[1], word_array[2])
+		BotClick(left, 1305, 156)
 	}
 	Else
 	{
@@ -329,11 +321,10 @@ ReadEnemy(ByRef arr,n,x,y,w,h)
 		MyPosition := n
 		arr[n].Attacked := 1
 	}
-	Gdip_DisposeImage(bmpClose)
-	Gdip_DisposeImage(bmpNox)
 	Sleep, 1000
 	return arr[n].Power
 }
+
 ReadPower(x,y,w,h)
 {
 	global pToken
