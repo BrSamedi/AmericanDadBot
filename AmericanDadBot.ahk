@@ -28,6 +28,8 @@ ratio := 1.1
 IniRead, ratio, settings.ini, arena, ratio
 participate := 0
 IniRead, participate, settings.ini, arena, participate
+strategy := 0
+IniRead, strategy, settings.ini, arena, strategy
 timer := 5000
 IniRead, timer, settings.ini, arena, timer
 timer := timer*1000
@@ -37,6 +39,7 @@ alwaysOnTop := 0
 IniRead, alwaysontop, settings.ini, antibot, alwaysontop
 alarm := 0
 IniRead, alarm, settings.ini, antibot, alarm
+
 
 CoordMode Pixel
 WinWait, NoxPlayer
@@ -69,7 +72,7 @@ Loop {
 		break
 		if (EnemyNumber = EnemyCount)
 		{
-			WeakEnemy := FindWeakEnemy(Position, Phase, MyPosition, ratio)
+			WeakEnemy := FindWeakEnemy(Position, Phase, MyPosition, ratio, strategy)
 			Fight(Position,WeakEnemy)
 			PrepareToRound(Position)
 			AntiBotCheck(alwaysOnTop, alarm)
@@ -119,7 +122,7 @@ WaitArenaEnd()
 			TakeScreenShot()
 		}
 		Sleep, 1000
-		BotClick(left, 1566, 237)
+		BotClick("left", 1566, 237)
 		Sleep, 1000
 		return 1
 	}
@@ -141,9 +144,9 @@ WaitArena()
 
 Fight(ByRef arr, WeakEnemy)
 {
-	BotClick(left, arr[WeakEnemy].X, arr[WeakEnemy].Y)
+	BotClick("left", arr[WeakEnemy].X, arr[WeakEnemy].Y)
 	Sleep, 1000
-	BotClick(left, 1172, 772)
+	BotClick("left", 1172, 772)
 	Sleep, 1000
 	color := BotPixelGetColor(866,851)
 	while color != 0x69FF61
@@ -151,18 +154,26 @@ Fight(ByRef arr, WeakEnemy)
 		Sleep, 3000
 		color := BotPixelGetColor(866,851)
 	}
-	BotClick(left, 866,851)
+	BotClick("left", 866,851)
 	Sleep, 3000
 }
 
 MainScreen()
 {
+	counter := 0
 	color := BotPixelGetColor(1540,570)
 	while color != 0x0C60AA
 	{
 		ControlSend, ,{Esc}, NoxPlayer
-		Sleep, 1000
+		Sleep, 3000
 		color := BotPixelGetColor(1540,570)
+		counter++
+		if (counter > 5)
+		{
+			BotClick("left", 110, 810)
+			counter :=0
+		}
+
 	}
 
 
@@ -170,10 +181,11 @@ MainScreen()
 
 CollectFood()
 {
+	;option 1
 	global pToken
 	WinGet, hwnd, ID, NoxPlayer
 	bmpNox := Gdip_BitmapFromHWND(hwnd)
-	TryToCollect := ["alien", "ghost", "fire", "pie"]
+	TryToCollect := ["alien", "ghost", "fire", "pie", "pie9"]
 	Loop % TryToCollect.Length()
 	{	
 		pict := % TryToCollect[A_Index]
@@ -188,6 +200,26 @@ CollectFood()
 		Sleep, 1000
 	}
 	Gdip_DisposeImage(bmpNox)
+	
+	;option 2
+	; ;fire
+	; color := BotPixelGetColor(697, 211)
+	; if color = 0x4148F3
+	; {
+	; 	BotClick("left", 697, 211)
+	; }
+	; Sleep, 1000
+	; ;ghost
+	; color := BotPixelGetColor(719, 236)
+	; if color = 0xF5F9F8
+	; {
+	; 	BotClick("left", 719, 236)
+	; }
+	; Sleep, 1000
+	; ;food
+	; BotClick("left", 802, 278)
+	; Sleep, 1000
+
 }
 
 CollectResources()
@@ -201,7 +233,7 @@ CollectResources()
 		{
 			for i,v in ok
 			if (i<=1)
-			BotClick(left, v.1+v.3//2, v.2+v.4//2)
+			BotClick("left", v.1+v.3//2, v.2+v.4//2)
 			Sleep, 1000
 		}
 
@@ -210,7 +242,7 @@ CollectResources()
 		{
 			for i,v in ok
 			if (i<=1)
-			BotClick(left, v.1+v.3//2, v.2+v.4//2)
+			BotClick("left", v.1+v.3//2, v.2+v.4//2)
 			Sleep, 1000
 		}
 
@@ -219,7 +251,7 @@ CollectResources()
 		{
 			for i,v in ok
 			if (i<=1)
-			BotClick(left, v.1+v.3//2, v.2+v.4//2)
+			BotClick("left", v.1+v.3//2, v.2+v.4//2)
 			Sleep, 1000
 		}
 
@@ -229,57 +261,63 @@ CollectResources()
 		{
 			for i,v in ok
 			if (i<=1)
-			BotClick(left, v.1+v.3//2, v.2+v.4//2)
+			BotClick("left", v.1+v.3//2, v.2+v.4//2)
 			Sleep, 1000
 		}
 		else
 		break
 	}
 	Sleep, 3000
-	BotClick(left, 802, 278)
+	BotClick("left", 802, 278)
 }
 
 
 GoToArena()
 {
-	BotClick(left, 110, 810)
+	BotClick("left", 110, 810)
 	Sleep, 1000
-	BotClick(left, 1374, 330)
+	BotClick("left", 1374, 330)
 	Sleep, 1000
 }
 
 StartArena(choice)
 {
 	if (choice != 1)
-	BotClick(left, 300, 320)
+	BotClick("left", 300, 320)
 	;ticketCount := ReadPower(700,185,55,3)
 	ticketCount := ReadPower(700,185,65,-10)
 	;foodCount := ReadPower(420,185,113,3)
 	foodCount := ReadPower(400,185,133,-10)
 	foodNeed := ReadPower(374,744,139,5)
+	
+	if (foodCount < foodNeed)
+		foodCount := ReadPower(420,185,113,3)
+	if (BotPixelGetColor(746, 189) = 0x000000 && BotPixelGetColor(746, 198) = 0x000000 && BotPixelGetColor(746, 205) = 0x000000)
+		ticketCount := 9
+	
 	if (choice = 0 && foodCount > foodNeed)
-	BotClick(left, 300, 320)
-	else if (choice = 1 && ticketCount > 1)
-	BotClick(left, 540, 320)
+	BotClick("left", 300, 320)
+	else if (choice = 1 && ticketCount > 0)
+	BotClick("left", 540, 320)
 	else if (choice = 2 && foodCount > foodNeed)
-	BotClick(left, 300, 320)
-	else if (choice = 2 && ticketCount > 1)
-	BotClick(left, 540, 320)
-	else if (choice = 3 && ticketCount > 1)
-	BotClick(left, 540, 320)
+	BotClick("left", 300, 320)
+	else if (choice = 2 && ticketCount > 0)
+	BotClick("left", 540, 320)
+	else if (choice = 3 && ticketCount > 0)
+	BotClick("left", 540, 320)
 	else if (choice = 3 && foodCount > foodNeed)
-	BotClick(left, 300, 320)
+	BotClick("left", 300, 320)
 	else
 	{
 		MsgBox, Not enough resourses
 		ExitApp
 	}
 	Sleep, 1000
-	BotClick(left, 420, 740)
+	BotClick("left", 420, 740)
 	Sleep, 1000
 	power := ReadPower(780, 201, 200, 10)
 	Sleep, 1000
-	BotClick(left, 1207, 838)
+	BotClick("left", 1207, 838)
 	return power
 }
 
@@ -294,7 +332,7 @@ ReadEnemy(ByRef arr,n,x,y,w,h)
 		color := BotPixelGetColor(arr[n].X, arr[n].Y)
 		counter++
 	}
-	BotClick(left, arr[n].X, arr[n].Y)
+	BotClick("left", arr[n].X, arr[n].Y)
 	Sleep, 1000
 	color := BotPixelGetColor(1305, 156)
 	if color = 0xFFFFFF
@@ -313,7 +351,7 @@ ReadEnemy(ByRef arr,n,x,y,w,h)
 		arr[n].Attacked := 0
 		else
 		arr[n].Attacked := 1
-		BotClick(left, 1305, 156)
+		BotClick("left", 1305, 156)
 	}
 	Else
 	{
@@ -348,11 +386,12 @@ ReadPower(x,y,w,h)
 	return power+0
 }
 
-FindWeakEnemy(ByRef arr, Phase, MyPosition,ratio)
+FindWeakEnemy(ByRef arr, Phase, MyPosition,ratio, strategy)
 {
 	global MyPower
 	arrNew := []
-	enemy=0
+	enemy:=0
+	enemyPower:=0
 	key := "Power"
 	str := "", d := Chr(1)
 	for k, v in arr
@@ -361,13 +400,14 @@ FindWeakEnemy(ByRef arr, Phase, MyPosition,ratio)
 	Loop, parse, str, % d
 	arrNew.Push(arr[ RegExReplace(A_LoopField, ".+~") ])
 
-	if Phase <4
+	if (Phase < 4 && strategy = 0)
 	{
 		for k, v in arrNew
 		{
 			if v.ID > MyPosition && v.Attacked = 0
 			{
 				enemy := v.ID
+				enemyPower := v.Power
 				break
 			}
 		}
@@ -379,21 +419,35 @@ FindWeakEnemy(ByRef arr, Phase, MyPosition,ratio)
 			if v.ID < MyPosition && v.Attacked = 0 && v.Power < MyPower*ratio
 			{
 				enemy := v.ID
+				enemyPower := v.Power
 				break
 			}
 		}
 	}
-	if enemy = 0
+	if (enemy = 0) or (Phase = 1 && strategy = 1) or (Phase = 1 && strategy = 0)
 	{
 		for k, v in arrNew
 		{
 			if v.Attacked = 0
 			{
 				enemy := v.ID
+				enemyPower := v.Power
 				break
 			}
 		}
 	}
+								;Debugging
+							; WriteArrayInFile(arrNew, "log.txt")
+							; str :=   "`n"
+							; FileAppend,  %str%, log.txt
+							; FileAppend, Phase %Phase%, log.txt
+							; FileAppend, %str%, log.txt
+							; FileAppend,  My position %MyPosition%;  my power %MyPower%, log.txt
+							; FileAppend, %str%, log.txt
+							; FileAppend,  Enemy position %enemy%; enemy power %enemyPower%, log.txt
+							; FileAppend,  %str%, log.txt
+							; FileAppend,  %str%, log.txt
+							; FileAppend,  %str%, log.txt
 	return enemy
 }
 

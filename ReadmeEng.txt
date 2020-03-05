@@ -9,10 +9,12 @@ Quick start: install and run the NOX, set the resolution 1600x900 in NOX setting
 	participate=1 bot plays only for tickets  
 	participate=2 bot plays first fully for food, then for tickets  
 	participate=3 bot plays first fully for tickets, then for food  
-2.4. 	ratio=1.1 option for 4th and 5th stages for finding stronger enemies  
-2.5. 	timer=0 timer between fights in seconds, 0-for random delays of 2 to 5 minutes  
-2.6.	screenshot=1 take screenshots of arena results in screenshots folder  
-2.7.	alwaysontop=1 when an anti-bot window is detected, the NoxPlayer window becomes active until the anti-bot passes  
+2.4.	strategy=0 strategy 3+2
+	strategy=1 strategy 1+4
+2.5. 	ratio=1.1 option for 4th and 5th stages for finding stronger enemies  
+2.6. 	timer=0 timer between fights in seconds, 0-for random delays of 2 to 5 minutes  
+2.7.	screenshot=1 take screenshots of arena results in screenshots folder  
+2.8.	alwaysontop=1 when an anti-bot window is detected, the NoxPlayer window becomes active until the anti-bot passes  
 	alarm=1 when an anti-bot window is detected, a constant beep is activated until the anti-bot passes  
 
 Hotkeys:  
