@@ -133,7 +133,7 @@ WaitArenaEnd()
 WaitArena()
 {
 	color := BotPixelGetColor(1576, 232)
-	while (color != 0x69FF61 And color != 0x6AFF61 And color != 0x66FF66)
+	while (color != 0x69FF61 And color != 0x6AFF61 And color != 0x66FF66 And color != 0x69FD61)
 	{
 		AntiBotCheck(alwaysOnTop, alarm)
 		Sleep, 1000
@@ -276,7 +276,7 @@ GoToArena()
 {
 	BotClick("left", 110, 810)
 	Sleep, 1000
-	BotClick("left", 1374, 330)
+	BotClick("left", 1374, 236)
 	Sleep, 1000
 }
 
