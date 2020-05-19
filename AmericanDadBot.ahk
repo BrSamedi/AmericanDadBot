@@ -82,7 +82,7 @@ Loop {
 			EnemyCount--
 		}
 		AntiBotCheck(alwaysOnTop, alarm)
-		ReadEnemy(Position,NPosition,838, 430, 200, 12)
+		ReadEnemy(Position,NPosition,840, 430, 200, 12)
 		if Position[NPosition].Attacked = 0
 		EnemyNumber++
 		if NPosition = 15
