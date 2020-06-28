@@ -132,9 +132,16 @@ WaitArenaEnd()
 
 WaitArena()
 {
+	counter := 0
 	color := BotPixelGetColor(1576, 232)
 	while (color != 0x69FF61 And color != 0x6AFF61 And color != 0x66FF66 And color != 0x69FD61 And color != 0x68FF62)
 	{
+		counter++
+		if (counter > 60)
+		{
+			BotClick("left", 1576, 232)
+			counter :=0
+		}
 		AntiBotCheck(alwaysOnTop, alarm)
 		Sleep, 1000
 		color := BotPixelGetColor(1576, 232)
@@ -162,7 +169,7 @@ MainScreen()
 {
 	counter := 0
 	color := BotPixelGetColor(1540,570)
-	while color != 0x0C60AA
+	while (color != 0x0C60AA and color != 0x0C62AD)
 	{
 		ControlSend, ,{Esc}, NoxPlayer
 		Sleep, 3000
@@ -182,44 +189,43 @@ MainScreen()
 CollectFood()
 {
 	;option 1
-	global pToken
-	WinGet, hwnd, ID, NoxPlayer
-	bmpNox := Gdip_BitmapFromHWND(hwnd)
-	TryToCollect := ["alien", "ghost", "fire", "pie", "pie9"]
-	Loop % TryToCollect.Length()
-	{	
-		pict := % TryToCollect[A_Index]
-		ImgPath = %A_WorkingDir%\images\%pict%.png
-		bmpTryToCollect := Gdip_CreateBitmapFromFile(ImgPath)
-		RET := Gdip_ImageSearch(bmpNox,bmpTryToCollect,LIST,0,0,0,0,0,0xFFFFFF,1,0)
-		Gdip_DisposeImage(bmpTryToCollect)
-		word_array := StrSplit(LIST, ",")
-		ps1 := "x"+word_array[1]
-		ps1 .= " y"+word_array[2]
-		ControlClick,% ps1, NoxPlayer
-		Sleep, 1000
-	}
-	Gdip_DisposeImage(bmpNox)
+	; global pToken
+	; WinGet, hwnd, ID, NoxPlayer
+	; bmpNox := Gdip_BitmapFromHWND(hwnd)
+	; TryToCollect := ["alien", "ghost", "fire", "pie", "pie9"]
+	; Loop % TryToCollect.Length()
+	; {	
+	; 	pict := % TryToCollect[A_Index]
+	; 	ImgPath = %A_WorkingDir%\images\%pict%.png
+	; 	bmpTryToCollect := Gdip_CreateBitmapFromFile(ImgPath)
+	; 	RET := Gdip_ImageSearch(bmpNox,bmpTryToCollect,LIST,0,0,0,0,0,0xFFFFFF,1,0)
+	; 	Gdip_DisposeImage(bmpTryToCollect)
+	; 	word_array := StrSplit(LIST, ",")
+	; 	ps1 := "x"+word_array[1]
+	; 	ps1 .= " y"+word_array[2]
+	; 	ControlClick,% ps1, NoxPlayer
+	; 	Sleep, 1000
+	; }
+	; Gdip_DisposeImage(bmpNox)
 	
 	;option 2
-	; ;fire
-	; color := BotPixelGetColor(697, 211)
-	; if color = 0x4148F3
-	; {
-	; 	BotClick("left", 697, 211)
-	; }
-	; Sleep, 1000
-	; ;ghost
-	; color := BotPixelGetColor(719, 236)
-	; if color = 0xF5F9F8
-	; {
-	; 	BotClick("left", 719, 236)
-	; }
-	; Sleep, 1000
-	; ;food
-	; BotClick("left", 802, 278)
-	; Sleep, 1000
-
+	;fire
+	color := BotPixelGetColor(697, 211)
+	if color = 0x4148F3
+	{
+		BotClick("left", 697, 211)
+	}
+	Sleep, 1000
+	;ghost
+	color := BotPixelGetColor(719, 236)
+	if color = 0xF5F9F8
+	{
+		BotClick("left", 719, 236)
+	}
+	Sleep, 1000
+	;food
+	BotClick("left", 802, 278)
+	Sleep, 1000
 }
 
 CollectResources()
@@ -274,6 +280,12 @@ CollectResources()
 
 GoToArena()
 {
+	color := BotPixelGetColor( 110, 810)
+	if color != 0xBAFFFF
+	{
+		MainScreen()
+	}
+	Sleep, 1000
 	BotClick("left", 110, 810)
 	Sleep, 1000
 	BotClick("left", 1374, 236)
