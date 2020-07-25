@@ -50,9 +50,9 @@ IfWinNotActive, NoxPlayer
 }
 WinSet, Style, -0x20000, NoxPlayer
 WinSet, Style, -0x10000, NoxPlayer
-
+BlockInput MouseMove
 Sleep, 1000
-
+MouseMove, 1650, 1
 pToken := Gdip_Startup()
 Loop {
 	MainScreen()
@@ -60,6 +60,7 @@ Loop {
 	CollectFood()
 	GoToArena()
 	MyPower := StartArena(participate)
+	BlockInput MouseMoveOff
 	WaitArena()
 
 	NPosition := 1
@@ -133,18 +134,18 @@ WaitArenaEnd()
 WaitArena()
 {
 	counter := 0
-	color := BotPixelGetColor(1576, 232)
-	while (color != 0x69FF61 And color != 0x6AFF61 And color != 0x66FF66 And color != 0x69FD61 And color != 0x68FF62)
+	color := BotPixelGetColor(1558, 74)
+	while (color != 0x0ED0FD)
 	{
 		counter++
 		if (counter > 60)
 		{
-			BotClick("left", 1576, 232)
+			BotClick("left", 1558, 74)
 			counter :=0
 		}
 		AntiBotCheck(alwaysOnTop, alarm)
 		Sleep, 1000
-		color := BotPixelGetColor(1576, 232)
+		color := BotPixelGetColor(1558, 74)
 	}
 	Sleep, 5000
 }
