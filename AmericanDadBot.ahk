@@ -135,7 +135,7 @@ WaitArena()
 {
 	counter := 0
 	color := BotPixelGetColor(1558, 74)
-	while (color != 0x0ED0FD)
+	while (color != 0x0ED0FD and color != 0x5C4D56)
 	{
 		counter++
 		if (counter > 60)
@@ -328,7 +328,7 @@ StartArena(choice)
 	Sleep, 1000
 	BotClick("left", 420, 740)
 	Sleep, 1000
-	power := ReadPower(780, 201, 200, 10)
+	power := ReadPower(750, 201, 200, 10)
 	Sleep, 1000
 	BotClick("left", 1207, 838)
 	return power
