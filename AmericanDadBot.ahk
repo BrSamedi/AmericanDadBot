@@ -299,7 +299,10 @@ StartArena(choice)
 	BotClick("left", 300, 320)
 	;ticketCount := ReadPower(700,185,55,3)
 	ticketCount := ReadPower(700,185,65,-10)
+	if (ticketCount = 0)
+		ticketCount := ReadPower(710,185,40,-10)
 	;foodCount := ReadPower(420,185,113,3)
+	; MsgBox, % ticketCount
 	foodCount := ReadPower(400,185,133,-10)
 	foodNeed := ReadPower(374,744,139,5)
 	
