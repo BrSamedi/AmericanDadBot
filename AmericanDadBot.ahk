@@ -361,6 +361,8 @@ ReadEnemy(ByRef arr,n,x,y,w,h)
 			Sleep, 1000
 			counter++
 		}
+		if arr[n].Power < ReadPower(x-2,y,w,h)
+			arr[n].Power := ReadPower(x-2,y,w,h)
 		Sleep, 1000
 		color := BotPixelGetColor(1183, 747)
 		if (color = 0x69FF61  or color = 0xD2FFEA)
