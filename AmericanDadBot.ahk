@@ -170,7 +170,7 @@ MainScreen()
 {
 	counter := 0
 	color := BotPixelGetColor(1540,570)
-	while (color != 0x0C60AA and color != 0x0C62AD)
+	while (color != 0x0C60AA and color != 0x0C62AD and color != 0x0C61AB)
 	{
 		ControlSend, ,{Esc}, NoxPlayer
 		Sleep, 3000
