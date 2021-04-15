@@ -365,7 +365,7 @@ ReadEnemy(ByRef arr,n,x,y,w,h)
 			arr[n].Power := ReadPower(x-2,y,w,h)
 		Sleep, 1000
 		color := BotPixelGetColor(1183, 747)
-		if (color = 0x69FF61  or color = 0xD2FFEA or color = 0x96FEA1 or color = 0x95FFA0)
+		if (color = 0x69FF61  or color = 0xD2FFEA or color = 0x96FEA1 or color = 0x95FFA0 or color = 0x96FFA0)
 		arr[n].Attacked := 0
 		else
 		arr[n].Attacked := 1
