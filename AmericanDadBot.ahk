@@ -115,7 +115,7 @@ WaitArenaEnd()
 {	
 	global screenshot
 	color := BotPixelGetColor(1562, 63)
-	if color = 0x5C4D56
+	if (color = 0x5C4D56  or color = 0x69FF61)
 	{
 		if screenshot = 1 
 		{
@@ -170,7 +170,7 @@ MainScreen()
 {
 	counter := 0
 	color := BotPixelGetColor(1540,570)
-	while (color != 0x0C60AA and color != 0x0C62AD and color != 0x0C61AB)
+	while (color != 0x0C60AA and color != 0x0C62AD and color != 0x0C61AB and color != 0x0C61AC)
 	{
 		ControlSend, ,{Esc}, NoxPlayer
 		Sleep, 3000
@@ -303,7 +303,7 @@ StartArena(choice)
 		ticketCount := ReadPower(710,185,40,-10)
 	;foodCount := ReadPower(420,185,113,3)
 	; MsgBox, % ticketCount
-	foodCount := ReadPower(400,185,133,-10)
+	foodCount := ReadPower(406,178,133,-10)
 	foodNeed := ReadPower(374,744,139,5)
 	
 	if (foodCount < foodNeed)
@@ -365,7 +365,7 @@ ReadEnemy(ByRef arr,n,x,y,w,h)
 			arr[n].Power := ReadPower(x-2,y,w,h)
 		Sleep, 1000
 		color := BotPixelGetColor(1183, 747)
-		if (color = 0x69FF61  or color = 0xD2FFEA or color = 0x96FEA1 or color = 0x95FFA0 or color = 0x96FFA0)
+		if (color = 0x69FF61  or color = 0xD2FFEA or color = 0x96FEA1 or color = 0x95FFA0 or color = 0x96FFA0 or color = 0x96FF9F)
 		arr[n].Attacked := 0
 		else
 		arr[n].Attacked := 1
